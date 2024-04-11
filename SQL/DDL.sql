@@ -51,7 +51,7 @@ CREATE TABLE ExerciseRoutine(
 	member_id INTEGER REFERENCES Members(member_id)
 );
 
---status INTEGER: 0 = in progress, 1 = completed
+--status INTEGER: 0 = not payed, 1 = payed
 CREATE TABLE Bill(
 	bill_id INTEGER PRIMARY KEY,
 	total_price INTEGER NOT NULL,
