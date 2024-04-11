@@ -1,12 +1,13 @@
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Members {
     static int currentlyloggedin;
     static Connection connection;
-    static String url = "jdbc:postgresql://localhost:5432/Try6";
+    static String url = "jdbc:postgresql://localhost:5432/Project";
     static String user = "postgres";
     static String password = "admin";
 
@@ -48,7 +49,6 @@ public class Members {
             //Add member to member table
             String insertSQL = "INSERT INTO Members(member_id, first_name, last_name, member_password, curr_weight, curr_height, curr_heart_rate) VALUES (?,?,?,?,?,?,?)";
             try (PreparedStatement pstmt = connection.prepareStatement(insertSQL)) {
-
                 pstmt.setInt(1, mem_id);
                 pstmt.setString(2, fname);
                 pstmt.setString(3, lname);
@@ -144,7 +144,7 @@ public class Members {
             System.out.println(e);
         }
         Scanner scannerObj = new Scanner(System.in);
-        System.out.println("Please select what you would like to do:\n 1. Manage my profile \n 2.Display my dashboard \n 3.Manage my Schedule");
+        System.out.println("Please select what you would like to do:\n 1. Manage my profile \n 2. Display my dashboard \n 3. Manage my Schedule");
         int choice = Integer.parseInt(scannerObj.nextLine());
         if(choice == 1){
             profileManagement();
@@ -262,8 +262,10 @@ public class Members {
                 String goal = scannerObj.nextLine();
                 String insertSQL2 = "INSERT INTO FitnessGoal(goal_id, start_date, end_date, goal, status, member_id) VALUES (?,?,?,?,?,?)";
                 try (PreparedStatement pstmt2 = connection.prepareStatement(insertSQL2)) {
-                    //fix the indexing
-                    pstmt2.setInt(1, 100);
+                    Random rand = new Random();
+                    int upper = 100;
+                    int random_int = rand.nextInt(upper);
+                    pstmt2.setInt(1, random_int);
                     pstmt2.setDate(2, sdate);
                     pstmt2.setDate(3, edate);
                     pstmt2.setString(4, goal);
@@ -323,8 +325,6 @@ public class Members {
                     int selected = Integer.parseInt(scannerObj.nextLine());
                     String deleteSQL = "DELETE FROM FitnessGoal WHERE goal_id = ?";
                     try (PreparedStatement pstmt = connection.prepareStatement(deleteSQL)) {
-                        // Statement checkID = connection.createStatement();
-                        //ResultSet resultSet1 = checkID.getResultSet();
                         pstmt.setInt(1, selected);
                         pstmt.executeUpdate();
                         System.out.println("goal deleted");
@@ -611,8 +611,10 @@ public class Members {
 
                 String insertSQL2 = "INSERT INTO PersonalTraining(session_id, start_time, end_time, session_date, price, trainer_id, member_id, room_id) VALUES (?,?,?,?,?,?,?,?)";
                 try (PreparedStatement pstmt2 = connection.prepareStatement(insertSQL2)) {
-                    //fix this to get a unique ID (number of sessions already in the personal training thing + 1)
-                    pstmt2.setInt(1, chosenSession + 100);
+                    Random rand = new Random();
+                    int upper = 100;
+                    int random_int = rand.nextInt(upper);
+                    pstmt2.setInt(1, random_int);
                     pstmt2.setTime(2, stime);
                     pstmt2.setTime(3, etime);
                     pstmt2.setDate(4, Date.valueOf(date));
@@ -674,12 +676,5 @@ public class Members {
             memberChoice();
         }
     }
-   /* catch (Exception e) {
-        System.out.println(e);
-    }
-    try{
-        Class.forName("org.postgresql.Driver");
-        //initialize connection object
-        connection = DriverManager.getConnection(url, user, password);
-    }*/
+
 }

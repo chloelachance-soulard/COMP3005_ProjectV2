@@ -1,12 +1,13 @@
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Trainers {
     static int currentlyloggedin;
     static Connection connection;
-    static String url = "jdbc:postgresql://localhost:5432/Try6";
+    static String url = "jdbc:postgresql://localhost:5432/Project";
     static String user = "postgres";
     static String password = "admin";
 
@@ -104,8 +105,10 @@ public class Trainers {
         int price = Integer.parseInt(scannerObj.nextLine());
         String insertSQL = "INSERT INTO Availability(availability_id, start_time, end_time, available_date, price, trainer_id) VALUES (?,?,?,?,?,?)";
         try (PreparedStatement pstmt = connection.prepareStatement(insertSQL)) {
-            //CHANGE THIS SO THAT ITS A DIFFERENT SESSION ID EVERYTIME CORRESPONDING TO HOW MANY ARE IN THE TABLE
-            pstmt.setInt(1, 100);
+            Random rand = new Random();
+            int upper = 100;
+            int random_int = rand.nextInt(upper);
+            pstmt.setInt(1, random_int);
             pstmt.setTime(2, stime);
             pstmt.setTime(3, etime);
             pstmt.setDate(4, Date.valueOf(date));

@@ -1,10 +1,13 @@
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 public class AdminStaff {
     static int currentlyloggedin;
     static Connection connection;
-    static String url = "jdbc:postgresql://localhost:5432/Try6";
+    static String url = "jdbc:postgresql://localhost:5432/Project";
     static String user = "postgres";
     static String password = "admin";
 
@@ -138,7 +141,7 @@ public class AdminStaff {
                 try (PreparedStatement pstmt = connection.prepareStatement(updateSQL)) {
                     pstmt.setInt(1, roomid);
                     pstmt.setInt(2, selection);
-                    pstmt.executeUpdate();
+                     pstmt.executeUpdate();
                     System.out.println("Update complete");
                     adminOptions();
                 } catch (Exception e) {
@@ -291,8 +294,10 @@ public class AdminStaff {
                     System.out.println("Creating membership fees bill...");
                     String insertSQL2 = "INSERT INTO Bill(bill_id, total_price, num_of_sessions, status, member_id) VALUES (?,?,?,?,?)";
                     try (PreparedStatement pstmt2 = connection.prepareStatement(insertSQL2)) {
-                        //fix the indexing
-                        pstmt2.setInt(1, 100);
+                        Random rand = new Random();
+                        int upper = 100;
+                        int random_int = rand.nextInt(upper);
+                        pstmt2.setInt(1, random_int);
                         pstmt2.setInt(2, 100);
                         pstmt2.setInt(3, 0);
                         pstmt2.setInt(4, 0);
@@ -321,18 +326,118 @@ public class AdminStaff {
                     }
                     System.out.println("Please select the member you would like to create a bill for : ");
                     int selected = Integer.parseInt(scannerObj.nextLine());
+                    int num_booked = 0;
+                    int tot_price = 0;
+                    statement.executeQuery("SELECT * FROM PersonalTraining");
+                    ResultSet pt_sessions = statement.getResultSet();
+                    while(pt_sessions.next()){
+                        if(pt_sessions.getInt("member_id") == selected){
+                            tot_price += pt_sessions.getInt("price");
+                            num_booked +=1;
+                        }
+                    }
+                    statement.executeQuery("SELECT * FROM SignedUpFor WHERE member_id =" + selected + " ");
+                    ResultSet registered = statement.getResultSet();
+                    List<Integer> classes = new ArrayList<Integer>();
+                    System.out.println("GROUP CLASSES");
+                    System.out.println("--------------------------------------------------");
+                    while (registered.next()) {
+                        classes.add(registered.getInt("class_id"));
+                    }
+                    for (int i = 0; i < classes.size(); i++) {
+                        statement.executeQuery("SELECT * FROM GroupClass WHERE class_id =" + classes.get(i) + " ");
+                        ResultSet resultSet = statement.getResultSet();
+                        while (resultSet.next()) {
+                            num_booked+=1;
+                            tot_price +=resultSet.getInt("price");
+                        }
+                    }
+                    String insertSQL2 = "INSERT INTO Bill(bill_id, total_price, num_of_sessions, status, member_id) VALUES (?,?,?,?,?)";
+                    try (PreparedStatement pstmt2 = connection.prepareStatement(insertSQL2)) {
+                        Random rand = new Random();
+                        int upper = 100;
+                        int random_int = rand.nextInt(upper);
+                        pstmt2.setInt(1, random_int);
+                        pstmt2.setInt(2, tot_price);
+                        pstmt2.setInt(3, num_booked);
+                        pstmt2.setInt(4, 0);
+                        pstmt2.setInt(5, selected);
+                        pstmt2.executeUpdate();
+                        System.out.println("Bill created");
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
+
                 } catch (Exception e) {
                     System.out.println(e);
                 }
                 adminOptions();
             }
+        }
             if (choice == 2) {
+                try {
+                    Statement statement = connection.createStatement();
+                    System.out.println("Here are all of the bills: ");
+                    statement.executeQuery("SELECT * FROM Bill");
+                    ResultSet chosen = statement.getResultSet();
+                    System.out.println("----------------------------------");
+                    while (chosen.next()) {
+                        System.out.println("Bill ID: " + chosen.getInt("bill_id") + "\t");
+                        System.out.println("Member ID: " + chosen.getInt("member_id") + "\t");
+                        System.out.println("Total price: " + chosen.getInt("total_price") + "\t");
+                        System.out.println("Number of sessions: " + chosen.getString("num_of_sessions") + "\t");
+                        System.out.println("Status: " + chosen.getInt("status") + "\t");
+                        System.out.println("------------");
+                    }
+                    System.out.println("Please select the bill you would like to cancel: ");
+                    int selected = Integer.parseInt(scannerObj.nextLine());
+                    String deleteSQL = "DELETE FROM Bill WHERE bill_id = ?";
+                    try (PreparedStatement pstmt = connection.prepareStatement(deleteSQL)) {
+                        pstmt.setInt(1, selected);
+                        pstmt.executeUpdate();
+                        System.out.println("bill deleted");
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
 
+                }catch (Exception e) {
+                    System.out.println(e);
+                }
+                adminOptions();
             }
             if (choice == 3) {
+                try {
+                    Statement statement = connection.createStatement();
+                    System.out.println("Here are all of the bills: ");
+                    statement.executeQuery("SELECT * FROM Bill");
+                    ResultSet chosen = statement.getResultSet();
+                    System.out.println("----------------------------------");
+                    while (chosen.next()) {
+                        System.out.println("Bill ID: " + chosen.getInt("bill_id") + "\t");
+                        System.out.println("Member ID: " + chosen.getInt("member_id") + "\t");
+                        System.out.println("Total price: " + chosen.getInt("total_price") + "\t");
+                        System.out.println("Number of sessions: " + chosen.getString("num_of_sessions") + "\t");
+                        System.out.println("Status: " + chosen.getInt("status") + "\t");
+                        System.out.println("------------");
+                    }
+                    System.out.println("Please select the bill that has been payed to update its status: ");
+                    int selected = Integer.parseInt(scannerObj.nextLine());
+                    String updateSQL = "UPDATE Bill SET status = ? WHERE bill_id = ?";
+                    try (PreparedStatement pstmt = connection.prepareStatement(updateSQL)) {
+                        pstmt.setInt(1, 1);
+                        pstmt.setInt(2, selected);
+                        pstmt.executeUpdate();
+                        System.out.println("Update complete");
+                    }catch (Exception e) {
+                        System.out.println(e);
+                    }
+
+                }catch (Exception e) {
+                    System.out.println(e);
+                }
+                adminOptions();
 
             }
-        }
     }
 
     public static void updateClass(){
