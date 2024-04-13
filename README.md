@@ -1,2 +1,3 @@
 # COMP3005_ProjectV2
-This is my repo for the Health and Fitness Club Management Project
+
+Video Link: https://youtu.be/TLybyIHhId0?si=7RtE-ZpfMrm5ZOQ1
