@@ -120,6 +120,7 @@ public class Trainers {
         }catch (Exception e) {
             System.out.println(e);
         }
+        trainerOptions();
 
     }
     public static void memberLookup(){
@@ -194,6 +195,7 @@ public class Trainers {
         }catch (Exception e) {
             System.out.println(e);
         }
+        trainerOptions();
 
     }
     public static void getAllTrainers() {

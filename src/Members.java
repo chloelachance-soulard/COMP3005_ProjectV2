@@ -243,7 +243,6 @@ public class Members {
                     pstmt3.setInt(2, currentlyloggedin);
                     pstmt3.executeUpdate();
                     System.out.println("Update complete");
-                    memberChoice();
                 } catch (Exception e) {
                     System.out.println(e);
                 }
@@ -641,6 +640,7 @@ public class Members {
             }catch (Exception e) {
                 System.out.println(e);
             }
+            memberChoice();
         }
 
         if (choice == 3) {

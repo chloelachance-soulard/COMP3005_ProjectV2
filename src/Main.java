@@ -8,7 +8,7 @@ public class Main {
     //static int currentlyloggedin;
     public static void main(String[] args) {
         //variables to connect to database
-        String url = "jdbc:postgresql://localhost:5432/Project";
+        String url = "jdbc:postgresql://localhost:5432/Project2";
         String user = "postgres";
         String password = "admin";
         try {

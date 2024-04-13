@@ -531,10 +531,9 @@ public class AdminStaff {
             }
         }
         if(choice == 5) {
-            Trainers.getAllTrainers();
             System.out.println("Please enter the new price: ");
             int price = Integer.parseInt(scannerObj.nextLine());
-            String updateSQL = "UPDATE GroupClass SET trainer_id = ? WHERE class_id = ?";
+            String updateSQL = "UPDATE GroupClass SET price = ? WHERE class_id = ?";
             try (PreparedStatement pstmt = connection.prepareStatement(updateSQL)) {
                 pstmt.setInt(1, price);
                 pstmt.setInt(2, classid);
