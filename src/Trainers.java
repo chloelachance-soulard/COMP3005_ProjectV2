@@ -135,7 +135,7 @@ public class Trainers {
             Statement statement = connection.createStatement();
             Scanner scannerObj = new Scanner(System.in);
             //ask trainer to input name of member
-            System.out.println("Please enter the name of the member you would like to look up: ");
+            System.out.println("Please enter the name of the member you would like to look up (capital letter sensitive): ");
             String inputted_name = scannerObj.nextLine();
             statement.executeQuery("SELECT * FROM Members WHERE first_name = '" + inputted_name+ "' ");
             ResultSet chosen = statement.getResultSet();
