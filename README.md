@@ -12,5 +12,5 @@ Select maven and click next
 Name your project and create it.
 Open the pom.xml file and add the dependencies found in the pom.xml dependencies file (copy the contents of the pom.xml dependencies file and paste it under the properties in the pom.xml file in IntelliJ)
 Load the maven changes (should have an m with a blue arrow symbol that shows up on page)
-Import the classes from the src folder in the GitHub repository into the src folder in IntelliJ
+Import the classes from the src folder in the GitHub repository into the src->main->java folder in IntelliJ
 You are now ready to run the application
