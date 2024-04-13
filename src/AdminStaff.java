@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class AdminStaff {
     static int currentlyloggedin;
     static Connection connection;
-    static String url = "jdbc:postgresql://localhost:5432/Project";
+    static String url = "jdbc:postgresql://localhost:5432/ProjectV2";
     static String user = "postgres";
     static String password = "admin";
 

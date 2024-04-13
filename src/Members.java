@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Members {
     static int currentlyloggedin;
     static Connection connection;
-    static String url = "jdbc:postgresql://localhost:5432/Project";
+    static String url = "jdbc:postgresql://localhost:5432/ProjectV2";
     static String user = "postgres";
     static String password = "admin";
 
@@ -625,7 +625,7 @@ public class Members {
 
                     System.out.println("You have successfully registered for personal training session " + chosenSession);
                 }
-                //Now that the personal training session has been booked, delete it from the availability list
+                //Now that the personal training session has been booked, delete it from the availability list for that trainer
                 String deleteSQL = "DELETE FROM Availability WHERE availability_id = ?";
                 try (PreparedStatement pstmt = connection.prepareStatement(deleteSQL)) {
                     Statement checkID = connection.createStatement();
