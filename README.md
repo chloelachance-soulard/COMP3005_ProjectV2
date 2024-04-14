@@ -6,7 +6,7 @@ Video Link: https://youtu.be/TLybyIHhId0?si=7RtE-ZpfMrm5ZOQ1
 Setup instructions:
 
 In pgadmin 4, create a new database (right click on databases and select create, name it Project2 and create the table using the DDL.sql file found in the SQL folder (copy/paste contents of DDL.sql into query tool))
-Now populate the database using the the database using the DML.sql file found in the SQL folder
+Now populate the database using the DML.sql file found in the SQL folder
 Open IntelliJ and create a new project
 Select maven and click next
 Name your project and create it.
